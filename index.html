@@ -17,6 +17,7 @@
             color: white;
             text-align: center;
             padding: 20px;
+            border-bottom: 5px solid #ff5733;
         }
         .container {
             width: 80%;
@@ -28,12 +29,52 @@
         .odds {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 20px;
         }
         .odds div {
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ddd;
             background-color: #fff;
             text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .odds h3 {
+            font-size: 24px;
+            color: #333;
+        }
+        .odds p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .bet-options {
+            margin: 20px 0;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .bet-options h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #e74c3c;
+        }
+        .bet-option {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .bet-option span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -58,7 +99,31 @@
             </div>
         </div>
     </div>
+
+    <div class="bet-options">
+        <h2>Opcije za klađenje</h2>
+        <div class="bet-option">
+            <span>Ko će pobediti?</span>
+            <span>Reza: 1.85 | Smilja: 2.10</span>
+        </div>
+        <div class="bet-option">
+            <span>Ko će dobiti u prvoj rundi?</span>
+            <span>Reza: 3.50 | Smilja: 4.00</span>
+        </div>
+        <div class="bet-option">
+            <span>Koliko rundi će meč trajati?</span>
+            <span>2-3 runde: 2.30 | 4-5 rundi: 3.10 | 6+ rundi: 4.50</span>
+        </div>
+        <div class="bet-option">
+            <span>Hoće li meč biti prekinut?</span>
+            <span>Da: 5.00 | Ne: 1.10</span>
+        </div>
+    </div>
 </div>
+
+<footer>
+    <p>Organizator: Reza i Smilja | Meč se održava u Mostaru</p>
+</footer>
 
 </body>
 </html>
