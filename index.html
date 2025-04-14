@@ -1,208 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boks Meč - Reza vs Smilja</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input[type="text"], input[type="number"], input[type="radio"] {
-      margin-bottom: 10px;
-      padding: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px;
-      border: none;
-      width: 100%;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .logo img {
-      width: 200px; /* Adjust the width as needed */
-    }
-  </style>
-  <script type="module">
-    // Import Firebase funkcije
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js";
-
-    // Firebase konfiguracija
-    const firebaseConfig = {
-      apiKey: "AIzaSyCk9OLsn5LwRs2SwbRm_g8cRw_qqwcY2KI",
-      authDomain: "reza-vs-smilja.firebaseapp.com",
-      projectId: "reza-vs-smilja",
-      storageBucket: "reza-vs-smilja.firebasestorage.app",
-      messagingSenderId: "42074055338",
-      appId: "1:42074055338:web:3bdd06a29989ec4db0e6d3",
-      measurementId: "G-TZLN9SK38L"
-    };
-
-    // Inicijalizacija Firebase-a
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getDatabase(app);
-
-    // Spremanje opklade u Firebase
-    function saveBet(betData) {
-      const betsRef = ref(db, 'bets'); // Spremanje podataka u 'bets' čvor
-      const newBetRef = push(betsRef); // Dodajemo novu opkladu
-      set(newBetRef, betData); // Spremamo podatke opklade
-    }
-
-    // Učitavanje svih opklada
-    function renderBets() {
-      const betsRef = ref(db, 'bets'); // Referenca na sve opklade u bazi
-      onValue(betsRef, (snapshot) => {
-        const bets = snapshot.val();
-        const tbody = document.getElementById('betsTableBody');
-        tbody.innerHTML = ''; // Očisti prethodne opklade
-
-        if (bets) {
-          for (const key in bets) {
-            const bet = bets[key];
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${bet.name}</td>
-              <td>${bet.option}</td>
-              <td>${bet.stake} KM</td>
-              <td>${bet.winAfterTax} KM</td>
-            `;
-            tbody.appendChild(row);
-          }
-        } else {
-          tbody.innerHTML = '<tr><td colspan="4">Nema opklada.</td></tr>';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boks Meč: Reza vs Smilja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-      });
-    }
-
-    renderBets(); // Pozivamo funkciju za prikazivanje opklada
-
-    // Funkcija za dodavanje opklade
-    document.getElementById('betForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const betOptions = document.getElementsByName('bet');
-      let selectedValue = null;
-      let selectedLabel = null;
-
-      for (const option of betOptions) {
-        if (option.checked) {
-          selectedValue = parseFloat(option.value);
-          selectedLabel = option.dataset.label;
-          break;
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 5px solid #ff5733;
         }
-      }
-
-      const name = document.getElementById('name').value.trim();
-      const amount = parseFloat(document.getElementById('amount').value.trim());
-
-      if (!name || !selectedValue || isNaN(amount)) {
-        alert("Molimo vas da popunite sva polja!");
-        return;
-      }
-
-      const tax = 0.10; // Porez 10%
-      const winAfterTax = amount * selectedValue * (1 - tax);
-
-      const betData = {
-        name: name,
-        option: selectedLabel,
-        stake: amount,
-        winAfterTax: winAfterTax.toFixed(2) // Dobitak nakon poreza
-      };
-
-      // Spremamo opkladu
-      saveBet(betData);
-
-      // Očisti formu
-      document.getElementById('betForm').reset();
-    });
-  </script>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .match-info {
+            margin: 20px 0;
+        }
+        .odds {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .odds div {
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .odds h3 {
+            font-size: 24px;
+            color: #333;
+        }
+        .odds p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .bet-options {
+            margin: 20px 0;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .bet-options h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #e74c3c;
+        }
+        .bet-option {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .bet-option span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
-  <div class="logo">
-    <img src="https://prnt.sc/TSczzZobUpXY" alt="AntishaBets Logo">
-  </div>
 
-  <h1>Boks Meč: Reza vs Smilja</h1>
+<header>
+    <h1>Boks Meč: Reza vs Smilja</h1>
+    <p>Meč se održava u Mostaru</p>
+</header>
 
-  <!-- Forma za unos opklade -->
-  <form id="betForm">
-    <label for="name">Vaše ime:</label>
-    <input type="text" id="name" required><br><br>
+<div class="container">
+    <div class="match-info">
+        <h2>Kvota za klađenje:</h2>
+        <div class="odds">
+            <div>
+                <h3>Reza</h3>
+                <p>Kvota: 1.85</p>
+            </div>
+            <div>
+                <h3>Smilja</h3>
+                <p>Kvota: 2.10</p>
+            </div>
+        </div>
+    </div>
 
-    <label for="bet">Odaberite opciju:</label><br>
-    <input type="radio" name="bet" value="1.5" data-label="Reza pobjednik"> Reza pobjednik (1.5)<br>
-    <input type="radio" name="bet" value="2.5" data-label="Smilja pobjednik"> Smilja pobjednik (2.5)<br><br>
+    <div class="bet-options">
+        <h2>Opcije za klađenje</h2>
+        <div class="bet-option">
+            <span>Ko će pobediti?</span>
+            <span>Reza: 1.85 | Smilja: 2.10</span>
+        </div>
+        <div class="bet-option">
+            <span>Ko će dobiti u prvoj rundi?</span>
+            <span>Reza: 3.50 | Smilja: 4.00</span>
+        </div>
+        <div class="bet-option">
+            <span>Koliko rundi će meč trajati?</span>
+            <span>2-3 runde: 2.30 | 4-5 rundi: 3.10 | 6+ rundi: 4.50</span>
+        </div>
+        <div class="bet-option">
+            <span>Hoće li meč biti prekinut?</span>
+            <span>Da: 5.00 | Ne: 1.10</span>
+        </div>
+    </div>
+</div>
 
-    <label for="amount">Ulog (KM):</label>
-    <input type="number" id="amount" required><br><br>
+<footer>
+    <p>Organizator: Reza i Smilja | Meč se održava u Mostaru</p>
+</footer>
 
-    <button type="submit">Postavite opkladu</button>
-  </form>
-
-  <h2>Lista svih opklada</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Ime</th>
-        <th>Opcija</th>
-        <th>Ulog (KM)</th>
-        <th>Dobitak nakon poreza (KM)</th>
-      </tr>
-    </thead>
-    <tbody id="betsTableBody">
-      <!-- Opklade će biti prikazane ovdje -->
-    </tbody>
-  </table>
 </body>
 </html>
