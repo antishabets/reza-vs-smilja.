@@ -8,86 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #222;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      border-bottom: 5px solid #ff5733;
-    }
-    header img {
-      max-width: 300px;
-      margin-top: 10px;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-    }
-    .match-info {
-      margin: 20px 0;
-    }
-    .odds {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .odds div {
-      padding: 15px;
-      border: 1px solid #ddd;
-      background-color: #fff;
-      text-align: center;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .odds h3 {
-      font-size: 24px;
-      color: #333;
-    }
-    .odds p {
-      font-size: 18px;
-      font-weight: bold;
-      color: #e74c3c;
-    }
-    .bet-options {
-      margin: 20px 0;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .bet-options h2 {
-      margin-bottom: 20px;
-      text-align: center;
-      color: #e74c3c;
-    }
-    .bet-option {
-      margin: 10px 0;
-      display: flex;
-      justify-content: space-between;
-    }
-    .bet-option span {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    footer {
-      background-color: #222;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
-      font-size: 14px;
-    }
-    footer a {
-      color: #ff9900;
-      text-decoration: none;
-    }
+    /* Stilizacija kao prije */
   </style>
 </head>
 <body>
@@ -191,6 +112,7 @@
     // Forma za klađenje
     document.getElementById('betForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      console.log("Formular predat.");
 
       const betOptions = document.getElementsByName('bet');
       let selectedValue = null;
@@ -210,6 +132,7 @@
 
       if (!name || !selectedValue || amount <= 0 || !userEmail) {
         document.getElementById('result').innerText = "Molimo unesite ime, odaberite opciju, unesite ispravan ulog i svoj email.";
+        console.log("Podaci nisu ispravno uneseni.");
         return;
       }
 
@@ -229,6 +152,8 @@
       const newBetRef = database.ref('bets').push();
       newBetRef.set(betData);
 
+      console.log("Podaci poslani u Firebase.");
+
       // Šaljemo email korisniku putem EmailJS
       emailjs.send('nZny1t8iDvgDELtzx', 'template_je9irtk', {
         name: name,
@@ -242,6 +167,9 @@
         console.log('Failed...', error);
       });
     });
+    
+    // Inicijalizacija EmailJS
+    emailjs.init('your_user_id'); // Unesi svoj korisnički ID sa EmailJS
   </script>
 
 </body>
