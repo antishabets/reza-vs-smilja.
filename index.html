@@ -70,7 +70,7 @@
 
   <script>
     // Inicijalizacija EmailJS
-    emailjs.init('nZny1t8iDvgDELtzx'); // Tvoj korisnički ID
+    emailjs.init('XYWshDYq8KyE5Z2Tf'); // Tvoj javni ključ (USER ID)
 
     // Funkcija za slanje emaila
     document.getElementById('betForm').addEventListener('submit', function(e) {
@@ -102,8 +102,8 @@
       document.getElementById('result').innerHTML =
         `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
-      // Slanje emaila putem EmailJS
-      emailjs.send('nZny1t8iDvgDELtzx', 'template_je9irtk', {
+      // Slanje emaila putem EmailJS s novim template ID-em
+      emailjs.send('nZny1t8iDvgDELtzx', 'template_x3gq107', {
         name: name,
         email: email,
         option: selectedLabel,
@@ -111,10 +111,10 @@
         winAfterTax: taxedWin
       }).then(function(response) {
         console.log('Email poslan', response);
-        document.getElementById('result').innerText += "\nE-mail je uspješno poslan!";
+        document.getElementById('result').innerHTML += "<br>E-mail je uspješno poslan!";
       }, function(error) {
         console.error('Greška u slanju emaila', error);
-        document.getElementById('result').innerText += "\nDošlo je do pogreške pri slanju emaila!";
+        document.getElementById('result').innerHTML += "<br>Došlo je do pogreške pri slanju emaila!";
       });
     });
   </script>
