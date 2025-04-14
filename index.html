@@ -1,141 +1,134 @@
 <!DOCTYPE html>
 <html lang="hr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boks Meč: Reza vs Smilja</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            border-bottom: 5px solid #ff5733;
-        }
-        header img {
-            max-width: 300px;
-            margin-top: 10px;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        .match-info {
-            margin: 20px 0;
-        }
-        .odds {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .odds div {
-            padding: 15px;
-            border: 1px solid #ddd;
-            background-color: #fff;
-            text-align: center;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .odds h3 {
-            font-size: 24px;
-            color: #333;
-        }
-        .odds p {
-            font-size: 18px;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-        .bet-options {
-            margin: 20px 0;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .bet-options h2 {
-            margin-bottom: 20px;
-            text-align: center;
-            color: #e74c3c;
-        }
-        .bet-option {
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-        .bet-option span {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-            font-size: 14px;
-        }
-        footer a {
-            color: #ff9900;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reza vs Smilja - Boks Meč</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #111;
+      color: white;
+      padding: 20px;
+    }
+    img {
+      max-width: 250px;
+      margin-top: 15px;
+    }
+    section {
+      padding: 20px;
+    }
+    form {
+      background: white;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    input[type="number"] {
+      width: 100px;
+      padding: 5px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #ddd;
+    }
+  </style>
 </head>
 <body>
 
-<header>
+  <header>
     <h1>Boks Meč: Reza vs Smilja</h1>
     <p>Meč se održava u Mostaru</p>
-    <img src="Gambling logo with name_ AntishaBets.jpg" alt="AntishaBets Logo" style="max-width: 300px; margin-top: 10px;">
+    <img src="Gambling logo with name_ AntishaBets.jpg" alt="AntishaBets Logo">
+  </header>
 
-</header>
+  <section>
+    <h2>Kvote za klađenje</h2>
 
-<div class="container">
-    <div class="match-info">
-        <h2>Kvota za klađenje:</h2>
-        <div class="odds">
-            <div>
-                <h3>Reza</h3>
-                <p>Kvota: 1.85</p>
-            </div>
-            <div>
-                <h3>Smilja</h3>
-                <p>Kvota: 2.10</p>
-            </div>
-        </div>
-    </div>
+    <form id="betForm">
+      <label>Odaberi opciju za klađenje:</label><br><br>
 
-    <div class="bet-options">
-        <h2>Opcije za klađenje</h2>
-        <div class="bet-option">
-            <span>Ko će pobediti?</span>
-            <span>Reza: 1.85 | Smilja: 2.10</span>
-        </div>
-        <div class="bet-option">
-            <span>Ko će dobiti u prvoj rundi?</span>
-            <span>Reza: 3.50 | Smilja: 4.00</span>
-        </div>
-        <div class="bet-option">
-            <span>Koliko rundi će meč trajati?</span>
-            <span>2-3 runde: 2.30 | 4-5 runde: 3.10 | 6+ rundi: 4.50</span>
-        </div>
-        <div class="bet-option">
-            <span>Hoće li meč biti prekinut?</span>
-            <span>Da: 5.00 | Ne: 1.10</span>
-        </div>
-    </div>
-</div>
+      <input type="radio" name="bet" value="1.70" data-label="Smilja pobjeđuje"> Smilja pobjeđuje (1.70)<br>
+      <input type="radio" name="bet" value="2.20" data-label="Reza pobjeđuje"> Reza pobjeđuje (2.20)<br>
+      <input type="radio" name="bet" value="3.00" data-label="Pobjeda nokautom"> Pobjeda nokautom (3.00)<br>
+      <input type="radio" name="bet" value="2.50" data-label="Preko 3.5 runde"> Preko 3.5 runde (2.50)<br><br>
 
-<footer>
-    <p>Organizator: AntishaBets | Meč se održava u Mostaru</p>
-    <p>Kvote ažurira antishabet | Pošaljite svoje kvote na (obavezno Ime, Prezime i ulog): <a href="mailto:antishabets@gmail.com">antishabets@gmail.com</a></p>
-</footer>
+      <label for="amount">Unesi ulog (KM):</label>
+      <input type="number" id="amount" name="amount" required><br><br>
+
+      <button type="submit">Izračunaj dobitak</button>
+    </form>
+
+    <div id="result" style="margin-top: 15px; font-weight: bold;"></div>
+
+    <div id="lastBet" style="margin-top: 25px; font-style: italic;"></div>
+  </section>
+
+  <footer>
+    <p>Za prijedloge novih kvota pošaljite email na: <a href="mailto:antishabets@gmail.com">antishabets@gmail.com</a></p>
+  </footer>
+
+  <script>
+    // Prikaz posljednje opklade ako postoji
+    const savedBet = localStorage.getItem('lastBet');
+    if (savedBet) {
+      const bet = JSON.parse(savedBet);
+      document.getElementById('lastBet').innerHTML =
+        `Tvoja posljednja opklada: <b>${bet.option}</b> za <b>${bet.stake} KM</b>. Potencijalni dobitak: <b>${bet.win} KM</b>.`;
+    }
+
+    // Forma za klađenje
+    document.getElementById('betForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const betOptions = document.getElementsByName('bet');
+      let selectedValue = null;
+      let selectedLabel = null;
+
+      for (const option of betOptions) {
+        if (option.checked) {
+          selectedValue = parseFloat(option.value);
+          selectedLabel = option.dataset.label;
+          break;
+        }
+      }
+
+      const amount = parseFloat(document.getElementById('amount').value);
+
+      if (selectedValue && amount > 0) {
+        const potentialWin = (selectedValue * amount).toFixed(2);
+        document.getElementById('result').innerHTML =
+          `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak: <b>${potentialWin} KM</b>`;
+
+        localStorage.setItem('lastBet', JSON.stringify({
+          option: selectedLabel,
+          stake: amount,
+          odds: selectedValue,
+          win: potentialWin
+        }));
+      } else {
+        document.getElementById('result').innerText = "Molimo odaberite opciju i unesite ispravan ulog.";
+      }
+    });
+  </script>
 
 </body>
 </html>
