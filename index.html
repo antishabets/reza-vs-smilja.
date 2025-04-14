@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reza vs Smilja - Boks Meč</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <style>
     /* Stilizacija ostaje ista kao i prije */
@@ -195,7 +193,7 @@
             `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
         // Slanje emaila putem EmailJS
-        emailjs.send('nZny1t8iDvgDELtzx', 'template_je9irtk', {
+        emailjs.send('service_je9irtk', 'template_je9irtk', {
             name: name,
             email: email,
             option: selectedLabel,
