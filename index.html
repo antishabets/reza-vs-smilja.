@@ -36,6 +36,9 @@
       <label for="amount">Unesi ulog (KM):</label>
       <input type="number" id="amount" required><br><br>
 
+      <label for="userEmail">Unesite svoj e-mail:</label><br>
+      <input type="email" id="userEmail" required><br><br>
+
       <button type="submit">Izračunaj dobitak</button>
     </form>
 
@@ -66,18 +69,54 @@
   </footer>
 
   <script>
-    // Inicijalizacija EmailJS
-    emailjs.init("nZny1t8iDvgDELtzx"); // Korisnički ID za EmailJS
+    // Inicijalizacija Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCk9OLsn5LwRs2SwbRm_g8cRw_qqwcY2KI",
+      authDomain: "reza-vs-smilja.firebaseapp.com",
+      projectId: "reza-vs-smilja",
+      storageBucket: "reza-vs-smilja.firebasestorage.app",
+      messagingSenderId: "42074055338",
+      appId: "1:42074055338:web:3bdd06a29989ec4db0e6d3",
+      measurementId: "G-TZLN9SK38L"
+    };
+
+    // Inicijalizacija Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Učitavanje i prikaz prethodnih opklada
+    function renderBets() {
+      const betListRef = database.ref('bets');
+      betListRef.on('value', function(snapshot) {
+        const bets = snapshot.val();
+        const tbody = document.getElementById('betsTableBody');
+        tbody.innerHTML = '';
+        if (bets) {
+          for (const key in bets) {
+            const bet = bets[key];
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${bet.name}</td>
+              <td>${bet.option}</td>
+              <td>${bet.stake} KM</td>
+              <td>${bet.winAfterTax} KM</td>
+            `;
+            tbody.appendChild(row);
+          }
+        }
+      });
+    }
+
+    renderBets();
 
     // Forma za klađenje
     document.getElementById('betForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Sprečava ponovno učitavanje stranice
+      e.preventDefault();
 
       const betOptions = document.getElementsByName('bet');
       let selectedValue = null;
       let selectedLabel = null;
 
-      // Provjera odabrane opcije klađenja
       for (const option of betOptions) {
         if (option.checked) {
           selectedValue = parseFloat(option.value);
@@ -86,47 +125,52 @@
         }
       }
 
-      // Prikupljanje podataka sa forme
       const name = document.getElementById('name').value.trim();
       const amount = parseFloat(document.getElementById('amount').value);
+      const userEmail = document.getElementById('userEmail').value.trim();
 
-      // Validacija
-      if (!name || !selectedValue || amount <= 0) {
-        document.getElementById('result').innerText = "Molimo unesite ime, odaberite opciju i unesite ispravan ulog.";
+      if (!name || !selectedValue || amount <= 0 || !userEmail) {
+        document.getElementById('result').innerText = "Molimo unesite ime, odaberite opciju, unesite ispravan ulog i email.";
         return;
       }
 
-      // Računanje potencijalnog dobitka (nakon poreza)
       const rawWin = selectedValue * amount;
       const taxedWin = (rawWin * 0.90).toFixed(2); // 10% porez
-
-      // Prikazivanje rezultata korisniku
       document.getElementById('result').innerHTML =
         `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
-      // Slanje emaila korisniku putem EmailJS
+      const betData = {
+        name,
+        option: selectedLabel,
+        stake: amount,
+        winAfterTax: taxedWin
+      };
+
+      // Spremi opkladu u Firebase
+      const newBetRef = database.ref('bets').push();
+      newBetRef.set(betData);
+
+      // Šaljemo email putem EmailJS
       emailjs.send('nZny1t8iDvgDELtzx', 'template_je9irtk', {
         name: name,
         option: selectedLabel,
         stake: amount,
-        winAfterTax: taxedWin
+        winAfterTax: taxedWin,
+        user_email: userEmail  // Dodajemo korisnički email u tijelo poruke
       })
       .then(function(response) {
         console.log('Email poslan', response);
-        document.getElementById('result').innerHTML += "<br>Provjerite svoju e-mail poštu!";
+        alert("Vaša opklada je prihvaćena! Provjerite svoj e-mail za potvrdu.");
       }, function(error) {
         console.error('Greška u slanju emaila', error);
-        document.getElementById('result').innerHTML += "<br>Došlo je do greške prilikom slanja e-maila.";
+        alert("Došlo je do greške prilikom slanja e-maila. Molimo pokušajte ponovo.");
       });
 
-      // Spremanje opklade u Firebase (ako želite ovu opciju, dodajte Firebase kod ovde)
-      // const betData = { name, option: selectedLabel, stake: amount, winAfterTax: taxedWin };
-      // const newBetRef = database.ref('bets').push();
-      // newBetRef.set(betData);
-
-      // Osvježavanje liste opklada (ako koristite Firebase)
-      // renderBets();
+      renderBets();
     });
+
+    // Inicijalizacija EmailJS
+    emailjs.init('your_user_id'); // Unesi svoj korisnički ID sa EmailJS
   </script>
 
 </body>
