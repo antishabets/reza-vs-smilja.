@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reza vs Smilja - Boks Meč</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <style>
-    /* Stilizacija ostaje ista kao i prije */
+    /* Stilizacija ostaje ista */
   </style>
 </head>
 <body>
@@ -16,7 +13,6 @@
   <header>
     <h1>Boks Meč: Reza vs Smilja</h1>
     <p>Meč se održava u Mostaru</p>
-    <img src="Gambling logo with name_ AntishaBets.jpg" alt="AntishaBets Logo">
   </header>
 
   <section>
@@ -32,9 +28,6 @@
 
       <label for="name">Unesi ime:</label><br>
       <input type="text" id="name" required><br><br>
-
-      <label for="email">Unesi email:</label><br>
-      <input type="email" id="email" required><br><br>
 
       <label for="amount">Unesi ulog (KM):</label>
       <input type="number" id="amount" required><br><br>
@@ -69,56 +62,92 @@
   </footer>
 
   <script>
-    // Inicijalizacija EmailJS
-    emailjs.init('nZny1t8iDvgDELtzx'); // Unesi svoj korisnički ID sa EmailJS
+    // Funkcija za pohranu opklade u localStorage
+    function saveBetToLocalStorage(name, option, stake, winAfterTax) {
+        const bet = {
+            name: name,
+            option: option,
+            stake: stake,
+            winAfterTax: winAfterTax,
+            date: new Date().toISOString() // Dodavanje datuma u ISO format
+        };
+        
+        // Dohvati postojeće opklade iz localStorage, ako postoje
+        let bets = JSON.parse(localStorage.getItem('bets')) || [];
+        
+        // Dodaj novu opkladu
+        bets.push(bet);
+        
+        // Spremi opklade natrag u localStorage
+        localStorage.setItem('bets', JSON.stringify(bets));
+        
+        renderBets();  // Pozovi funkciju koja će prikazati sve opklade
+    }
 
-    // Funkcija za slanje emaila
+    // Funkcija koja prikazuje pohranjene opklade unutar zadnjih 10 dana
+    function renderBets() {
+        const bets = JSON.parse(localStorage.getItem('bets')) || [];
+        const tbody = document.getElementById('betsTableBody');
+        tbody.innerHTML = ''; // Očisti prethodno prikazane opklade
+
+        const currentDate = new Date();
+        const tenDaysAgo = new Date();
+        tenDaysAgo.setDate(currentDate.getDate() - 10); // Datum prije 10 dana
+
+        // Filtriranje opklada koje su unijete u posljednjih 10 dana
+        const recentBets = bets.filter(bet => {
+            const betDate = new Date(bet.date);
+            return betDate >= tenDaysAgo;
+        });
+
+        // Ispisivanje filtriranih opklada
+        recentBets.forEach(bet => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${bet.name}</td>
+                <td>${bet.option}</td>
+                <td>${bet.stake} KM</td>
+                <td>${bet.winAfterTax} KM</td>
+                <td>${new Date(bet.date).toLocaleString()}</td> <!-- Datum kada je opklada unesena -->
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Pozovi renderBets kad stranica učita
+    window.onload = renderBets;
+
+    // Funkcija za izračun dobitka i pohranu opklade
     document.getElementById('betForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+        e.preventDefault();
 
-      const betOptions = document.getElementsByName('bet');
-      let selectedValue = null;
-      let selectedLabel = null;
+        const betOptions = document.getElementsByName('bet');
+        let selectedValue = null;
+        let selectedLabel = null;
 
-      for (const option of betOptions) {
-        if (option.checked) {
-          selectedValue = parseFloat(option.value);
-          selectedLabel = option.dataset.label;
-          break;
+        for (const option of betOptions) {
+            if (option.checked) {
+                selectedValue = parseFloat(option.value);
+                selectedLabel = option.dataset.label;
+                break;
+            }
         }
-      }
 
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const amount = parseFloat(document.getElementById('amount').value);
+        const name = document.getElementById('name').value.trim();
+        const amount = parseFloat(document.getElementById('amount').value);
 
-      if (!name || !selectedValue || amount <= 0 || !email) {
-        document.getElementById('result').innerText = "Molimo unesite ime, email, odaberite opciju i unesite ispravan ulog.";
-        return;
-      }
+        if (!name || !selectedValue || amount <= 0) {
+            document.getElementById('result').innerText = "Molimo unesite ime, odaberite opciju i unesite ispravan ulog.";
+            return;
+        }
 
-      const rawWin = selectedValue * amount;
-      const taxedWin = (rawWin * 0.90).toFixed(2); // 10% porez
-      document.getElementById('result').innerHTML =
-        `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
+        const rawWin = selectedValue * amount;
+        const taxedWin = (rawWin * 0.90).toFixed(2); // 10% porez
+        document.getElementById('result').innerHTML =
+            `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
-      // Spremanje opklade u Firebase (ako se koristi)
-      // Ovo je mjesto gdje možete integrirati svoju bazu podataka, ali nije obavezno za slanje emaila.
-
-      // Slanje emaila putem EmailJS
-      emailjs.send('nZny1t8iDvgDELtzx', 'template_je9irtk', {
-        name: name,
-        email: email,
-        option: selectedLabel,
-        stake: amount,
-        winAfterTax: taxedWin
-      }).then(function(response) {
-        console.log('Email poslan', response);
-        document.getElementById('result').innerText += "\nE-mail je uspješno poslan!";
-      }, function(error) {
-        console.error('Greška u slanju emaila', error);
-        document.getElementById('result').innerText += "\nDošlo je do pogreške pri slanju emaila!";
-      });
+        // Pohrani opkladu u localStorage
+        saveBetToLocalStorage(name, selectedLabel, amount, taxedWin);
     });
   </script>
 
