@@ -4,13 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boks Meč - Reza vs Smilja</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="number"], input[type="radio"] {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
   <script type="module">
-    // Import funkcije koje ti trebaju
+    // Import Firebase funkcije
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
     import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js";
 
-    // Konfiguracija Firebase-a
+    // Firebase konfiguracija
     const firebaseConfig = {
       apiKey: "AIzaSyCk9OLsn5LwRs2SwbRm_g8cRw_qqwcY2KI",
       authDomain: "reza-vs-smilja.firebaseapp.com",
@@ -24,20 +82,18 @@
     // Inicijalizacija Firebase-a
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-
-    // Inicijalizacija Firebase Realtime Database
     const db = getDatabase(app);
 
-    // Funkcija za spremanje opklade u Firebase
+    // Spremanje opklade u Firebase
     function saveBet(betData) {
-      const betsRef = ref(db, 'bets'); // 'bets' je naziv čvora u bazi podataka
+      const betsRef = ref(db, 'bets'); // Spremanje podataka u 'bets' čvor
       const newBetRef = push(betsRef); // Dodajemo novu opkladu
       set(newBetRef, betData); // Spremamo podatke opklade
     }
 
-    // Funkcija za učitavanje svih opklada
+    // Učitavanje svih opklada
     function renderBets() {
-      const betsRef = ref(db, 'bets'); // Referenca na sve opklade
+      const betsRef = ref(db, 'bets'); // Referenca na sve opklade u bazi
       onValue(betsRef, (snapshot) => {
         const bets = snapshot.val();
         const tbody = document.getElementById('betsTableBody');
@@ -63,7 +119,7 @@
 
     renderBets(); // Pozivamo funkciju za prikazivanje opklada
 
-    // Event handler za unos opklade
+    // Funkcija za dodavanje opklade
     document.getElementById('betForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -94,7 +150,7 @@
         name: name,
         option: selectedLabel,
         stake: amount,
-        winAfterTax: winAfterTax.toFixed(2) // Ispis dobitka nakon poreza
+        winAfterTax: winAfterTax.toFixed(2) // Dobitak nakon poreza
       };
 
       // Spremamo opkladu
@@ -124,7 +180,7 @@
   </form>
 
   <h2>Lista svih opklada</h2>
-  <table border="1">
+  <table>
     <thead>
       <tr>
         <th>Ime</th>
