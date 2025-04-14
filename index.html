@@ -102,10 +102,10 @@
       document.getElementById('result').innerHTML =
         `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
-      // Slanje emaila putem EmailJS s novim template ID-em
+      // Slanje emaila putem EmailJS s novim template ID-em i tvojom email adresom kao primatelj
       emailjs.send('nZny1t8iDvgDELtzx', 'template_x3gq107', {
         name: name,
-        email: email,
+        email: "antishabets@gmail.com",  // Tvoja email adresa
         option: selectedLabel,
         stake: amount,
         winAfterTax: taxedWin
