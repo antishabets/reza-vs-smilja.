@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reza vs Smilja - Boks Meč</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <style>
+    /* Stilizacija ostaje ista kao i prije */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -90,120 +93,124 @@
 </head>
 <body>
 
-  <header>
+<header>
     <h1>Boks Meč: Reza vs Smilja</h1>
     <p>Meč se održava u Mostaru</p>
     <img src="Gambling logo with name_ AntishaBets.jpg" alt="AntishaBets Logo">
-  </header>
+</header>
 
-  <div class="container">
+<div class="container">
     <div class="match-info">
-      <h2>Kvota za klađenje:</h2>
-      <div class="odds">
-        <div>
-          <h3>Reza</h3>
-          <p>Kvota: 2.10</p>
+        <h2>Kvote za klađenje:</h2>
+        <div class="odds">
+            <div>
+                <h3>Reza</h3>
+                <p>Kvota: 2.20</p>
+            </div>
+            <div>
+                <h3>Smilja</h3>
+                <p>Kvota: 1.70</p>
+            </div>
         </div>
-        <div>
-          <h3>Smilja</h3>
-          <p>Kvota: 1.85</p>
-        </div>
-      </div>
     </div>
 
     <div class="bet-options">
-      <h2>Opcije za klađenje</h2>
-      <div class="bet-option">
-        <span>Ko će pobediti?</span>
-        <span>Reza: 2.10 | Smilja: 1.85</span>
-      </div>
-      <div class="bet-option">
-        <span>Ko će dobiti u prvoj rundi?</span>
-        <span>Reza: 3.50 | Smilja: 4.00</span>
-      </div>
-      <div class="bet-option">
-        <span>Koliko rundi će meč trajati?</span>
-        <span>2-3 runde: 2.30 | 4-5 runde: 3.10 | 6+ rundi: 4.50</span>
-      </div>
-      <div class="bet-option">
-        <span>Hoće li meč biti prekinut?</span>
-        <span>Da: 5.00 | Ne: 1.10</span>
-      </div>
+        <h2>Opcije za klađenje</h2>
+        <div class="bet-option">
+            <span>Ko će pobediti?</span>
+            <span>Reza: 2.20 | Smilja: 1.70</span>
+        </div>
+        <div class="bet-option">
+            <span>Ko će dobiti u prvoj rundi?</span>
+            <span>Reza: 3.50 | Smilja: 4.00</span>
+        </div>
+        <div class="bet-option">
+            <span>Koliko rundi će meč trajati?</span>
+            <span>2-3 runde: 2.30 | 4-5 runde: 3.10 | 6+ rundi: 4.50</span>
+        </div>
+        <div class="bet-option">
+            <span>Hoće li meč biti prekinut?</span>
+            <span>Da: 5.00 | Ne: 1.10</span>
+        </div>
     </div>
 
+    <h2>Unesi svoju opkladu</h2>
     <form id="betForm">
-      <label>Odaberi opciju za klađenje:</label><br><br>
-      <input type="radio" name="bet" value="2.10" data-label="Reza pobjeđuje"> Reza pobjeđuje (2.10)<br>
-      <input type="radio" name="bet" value="1.85" data-label="Smilja pobjeđuje"> Smilja pobjeđuje (1.85)<br>
-      <input type="radio" name="bet" value="3.50" data-label="Pobjeda nokautom"> Pobjeda nokautom (3.50)<br>
-      <input type="radio" name="bet" value="2.30" data-label="Preko 3.5 runde"> Preko 3.5 runde (2.30)<br><br>
+        <label>Odaberi opciju za klađenje:</label><br><br>
 
-      <label for="name">Unesi ime:</label><br>
-      <input type="text" id="name" required><br><br>
+        <input type="radio" name="bet" value="2.20" data-label="Reza pobjeđuje"> Reza pobjeđuje (2.20)<br>
+        <input type="radio" name="bet" value="1.70" data-label="Smilja pobjeđuje"> Smilja pobjeđuje (1.70)<br><br>
 
-      <label for="amount">Unesi ulog (KM):</label>
-      <input type="number" id="amount" required><br><br>
+        <label for="name">Unesi ime:</label><br>
+        <input type="text" id="name" required><br><br>
 
-      <button type="submit">Izračunaj dobitak</button>
+        <label for="email">Unesi email:</label><br>
+        <input type="email" id="email" required><br><br>
+
+        <label for="amount">Unesi ulog (KM):</label>
+        <input type="number" id="amount" required><br><br>
+
+        <button type="submit">Izračunaj dobitak</button>
     </form>
 
     <div id="result" style="margin-top: 15px; font-weight: bold;"></div>
-
     <div id="lastBet" style="margin-top: 25px; font-style: italic;"></div>
-  </div>
+</div>
 
-  <footer>
+<footer>
     <p>Organizator: Reza i Smilja | Meč se održava u Mostaru</p>
     <p>Kvote ažurira antishabet | Pošaljite svoje kvote na: <a href="mailto:antishabets@gmail.com">antishabets@gmail.com</a></p>
-  </footer>
+</footer>
 
-  <script>
-    emailjs.init('user_M4wvRfxlAGQdjwLD1Z6mh'); // Tvoj User ID sa EmailJS
+<script>
+    emailjs.init('nZny1t8iDvgDELtzx'); // Tvoj korisnički ID
 
     document.getElementById('betForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+        e.preventDefault();
 
-      const betOptions = document.getElementsByName('bet');
-      let selectedValue = null;
-      let selectedLabel = null;
+        const betOptions = document.getElementsByName('bet');
+        let selectedValue = null;
+        let selectedLabel = null;
 
-      for (const option of betOptions) {
-        if (option.checked) {
-          selectedValue = parseFloat(option.value);
-          selectedLabel = option.dataset.label;
-          break;
+        for (const option of betOptions) {
+            if (option.checked) {
+                selectedValue = parseFloat(option.value);
+                selectedLabel = option.dataset.label;
+                break;
+            }
         }
-      }
 
-      const name = document.getElementById('name').value.trim();
-      const amount = parseFloat(document.getElementById('amount').value);
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const amount = parseFloat(document.getElementById('amount').value);
 
-      if (!name || !selectedValue || amount <= 0) {
-        document.getElementById('result').innerText = "Molimo unesite ime, odaberite opciju i unesite ispravan ulog.";
-        return;
-      }
+        if (!name || !email || !selectedValue || amount <= 0) {
+            document.getElementById('result').innerText = "Molimo unesite ime, email, odaberite opciju i unesite ispravan ulog.";
+            return;
+        }
 
-      const rawWin = selectedValue * amount;
-      const taxedWin = (rawWin * 0.90).toFixed(2); // 10% porez
-      document.getElementById('result').innerHTML =
-        `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
+        const rawWin = selectedValue * amount;
+        const taxedWin = (rawWin * 0.90).toFixed(2); // 10% porez
+        document.getElementById('result').innerHTML =
+            `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
-      // EmailJS
-      emailjs.send('service_ovkp7m4', 'template_je9irtk', {
-        name: name,
-        option: selectedLabel,
-        stake: amount,
-        winAfterTax: taxedWin
-      })
-      .then(function(response) {
-        console.log('Email poslan', response);
-        alert("Opklada je uspješno poslana! Provjerite svoju email poštu.");
-      }, function(error) {
-        console.error('Greška u slanju emaila', error);
-        alert("Došlo je do greške prilikom slanja emaila. Molimo pokušajte ponovo.");
-      });
+        // Slanje emaila putem EmailJS
+        emailjs.send('service_id', 'template_je9irtk', {
+            name: name,
+            email: email,
+            option: selectedLabel,
+            stake: amount,
+            winAfterTax: taxedWin
+        })
+        .then(function(response) {
+            console.log('Email poslan', response);
+            document.getElementById('result').innerHTML += `<br><br>Potvrdili smo vašu opkladu! Provjerite svoj email.`;
+        }, function(error) {
+            console.error('Greška u slanju emaila', error);
+            document.getElementById('result').innerText = "Došlo je do greške pri slanju emaila. Pokušajte ponovo.";
+        });
     });
-  </script>
+</script>
 
 </body>
 </html>
