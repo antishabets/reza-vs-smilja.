@@ -68,11 +68,11 @@
     <p>Za prijedloge novih kvota pošaljite email na: <a href="mailto:antishabets@gmail.com">antishabets@gmail.com</a></p>
   </footer>
 
-  <!-- Ispravljena EmailJS skripta -->
-  <script type="text/javascript">
-    // Inicijalizacija EmailJS (zamijeni sa tvojim javnim ključem)
-    emailjs.init('nZny1t8iDvgDELtzx'); // npr. emailjs.init('nZny1t8iDvgDELtzx');
+  <script>
+    // Inicijalizacija EmailJS
+    emailjs.init('nZny1t8iDvgDELtzx'); // Tvoj javni ključ (USER ID)
 
+    // Funkcija za slanje emaila
     document.getElementById('betForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -102,7 +102,7 @@
       document.getElementById('result').innerHTML =
         `Odabrao si: <b>${selectedLabel}</b><br>Ulog: <b>${amount} KM</b><br>Potencijalni dobitak (nakon poreza): <b>${taxedWin} KM</b>`;
 
-      // Slanje emaila putem EmailJS
+      // Slanje emaila putem EmailJS s novim template ID-em
       emailjs.send('nZny1t8iDvgDELtzx', 'template_x3gq107', {
         name: name,
         email: email,
